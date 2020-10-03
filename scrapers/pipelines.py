@@ -7,6 +7,7 @@ from models import BranchProduct, Product
 class StoragePipeline:
     def __init__(self, db_engine=engine) -> None:
         self.engine = db_engine
+        self.session = None
 
     def open_spider(self, spider):
         Session = sessionmaker(bind=self.engine)
@@ -32,6 +33,9 @@ class StoragePipeline:
         product.name = item["name"]
         product.description = item["description"]
         product.image_url = item["image_url"]
+        product.category = item["category"]
+        product.package = item["package"]
+        product.url = item["url"]
 
         self.session.add(product)
         self.session.commit()
