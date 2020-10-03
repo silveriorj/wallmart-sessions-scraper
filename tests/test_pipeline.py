@@ -22,7 +22,11 @@ class StoragePipelineTestCase(TestCase):
             sku="10295446",
             brand="Great Value",
             name="Spring Water",
-            description="Convenient and refreshing, Great Value Spring Water is a healthy option that is Sodium-free and Non-carbonated. Bottled water is a quick and convenient way to fulfill your body's hydration needs. Zero calories, free from artifical flavors or colors, water is the right choice when it comes to your packaged beverage options. Eco-friendly, the bottle is made from 100% recycled plastic, a sustainable choice that is good for you and for the environment.",
+            description="Convenient and refreshing, Great Value Spring Water is a healthy option that is Sodium-free "
+                        "and Non-carbonated. Bottled water is a quick and convenient way to fulfill your body's "
+                        "hydration needs. Zero calories, free from artifical flavors or colors, water is the right "
+                        "choice when it comes to your packaged beverage options. Eco-friendly, the bottle is made from "
+                        "100% recycled plastic, a sustainable choice that is good for you and for the environment.",
             package="24 x 500ml",
             image_url="https://i5.walmartimages.ca/images/Large/887/928/999999-60538887928.jpg",
             branch="BRANCH01",
