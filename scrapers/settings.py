@@ -13,6 +13,8 @@ SPIDER_MODULES = ["scrapers.spiders"]
 NEWSPIDER_MODULE = "scrapers.spiders"
 
 
+USER_AGENT = 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; ' \
+             '+http://www.google.com/bot.html) Chrome/W.X.Y.Z‡ Safari/537.36 '
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'scrapers (+http://www.yourdomain.com)'
 
@@ -31,7 +33,7 @@ ROBOTSTXT_OBEY = True
 # CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-# COOKIES_ENABLED = False
+COOKIES_ENABLED = True
 
 # Disable Telnet Console (enabled by default)
 # TELNETCONSOLE_ENABLED = False
