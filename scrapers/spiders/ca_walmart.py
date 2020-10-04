@@ -2,6 +2,7 @@ import json
 import scrapy
 import re
 from scrapers.items import ProductItem
+import logging
 
 
 class CaWalmartSpider(scrapy.Spider):
