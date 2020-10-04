@@ -1,6 +1,6 @@
 import json
-import scrapy
 import re
+import scrapy
 from scrapers.items import ProductItem
 import logging
 
@@ -33,6 +33,7 @@ class CaWalmartSpider(scrapy.Spider):
 
     def parse_html(self, response, url):
         item = ProductItem()
+
         # Getting JS information from body
         general_info_dict = json.loads(re.findall(r'({.*})', response.xpath("/html/body/script[1]/text()").get())[0])
         product_dict = json.loads(response.css('.evlleax2 > script:nth-child(1)::text').get())
@@ -45,6 +46,7 @@ class CaWalmartSpider(scrapy.Spider):
 
         upc = general_info_dict['entities']['skus'][sku]['upc']
         category = general_info_dict['entities']['skus'][sku]['facets'][0]['value']
+
         package = general_info_dict['entities']['skus'][sku]['description']
 
         item['store'] = response.xpath('/html/head/meta[10]/@content').get()
@@ -58,4 +60,33 @@ class CaWalmartSpider(scrapy.Spider):
         item['image_url'] = ', '.join(image_url)
         item['description'] = description.replace('<br>', '')
 
-        self.logger.info('%s' % item)
+        # Setting up the requested branches Coordinates
+        branches = {'3106': ['43.656422', '-79.435567'], '3124': ['48.412997', '-89.239717']}
+
+        # API to search products by stores coordinates
+        store_url = 'https://www.walmart.ca/api/product-page/find-in-store?' \
+                    'latitude={}&longitude={}&lang=en&upc={}'
+
+        for k in branches:
+            yield scrapy.http.Request(store_url.format(branches[k][0], branches[k][1], upc[0]),
+                                      callback=self.parse_api, cb_kwargs={'item': item},
+                                      meta={'handle_httpstatus_all': True},
+                                      dont_filter=False, headers=self.header)
+
+    @staticmethod
+    def parse_api(response, item):
+        store_dict = json.loads(response.body)
+
+        branch = store_dict['info'][0]['id']
+        stock = store_dict['info'][0]['availableToSellQty']
+
+        if 'sellPrice' not in store_dict['info'][0]:
+            price = 0
+        else:
+            price = store_dict['info'][0]['sellPrice']
+
+        item['branch'] = branch
+        item['stock'] = stock
+        item['price'] = price
+
+        yield item
