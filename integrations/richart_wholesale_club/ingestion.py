@@ -1,15 +1,16 @@
 import os
 import sys
 import re
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine
+
 import pandas as pd
+
+from models import BranchProduct, Product, Base
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 if PROJECT_DIR not in sys.path:
     sys.path.append(PROJECT_DIR)
-
-from models import BranchProduct, Product, Base
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
 
 ASSETS_DIR = os.path.join(PROJECT_DIR, "assets")
 PRODUCTS_PATH = os.path.join(ASSETS_DIR, "PRODUCTS.csv")
